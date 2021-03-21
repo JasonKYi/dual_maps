@@ -52,16 +52,17 @@ variables [finite_dimensional K V₁] [finite_dimensional K V₂]
 open finite_dimensional
 
 lemma findim_range_dual_map_eq_findim_range {f : V₁ →ₗ[K] V₂} : 
-  findim K f.dual_map.range = findim K f.range.dual_annihilator :=
+  findim K f.dual_map.range = findim K f.range :=
 begin
   have := submodule.findim_quotient_add_findim f.range,
-  rw (subspace.quot_equiv_annihilator f.range).findim_eq at this,
-  have h₁ := findim_range_add_findim_ker f,
-  rw ker_dual_map_eq_range_dual_annihilator at h₁,32
-  sorry
+  rw [(subspace.quot_equiv_annihilator f.range).findim_eq, 
+      ← ker_dual_map_eq_range_dual_annihilator] at this,
+  conv_rhs at this { rw ← subspace.dual_findim_eq },
+  refine add_left_injective (findim K f.dual_map.ker) _,
+  change _ + _ = _ + _,
+  rw [findim_range_add_findim_ker f.dual_map, add_comm, this],
 end
 
-#exit
 lemma range_dual_map_eq_dual_annihilator_ker {f : V₁ →ₗ[K] V₂} :
   f.dual_map.range = f.ker.dual_annihilator :=
 begin
