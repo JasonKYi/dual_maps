@@ -57,7 +57,7 @@ begin
   have := submodule.findim_quotient_add_findim f.range,
   rw (subspace.quot_equiv_annihilator f.range).findim_eq at this,
   have h₁ := findim_range_add_findim_ker f,
-  rw ker_dual_map_eq_range_dual_annihilator at h₁,
+  rw ker_dual_map_eq_range_dual_annihilator at h₁,32
   sorry
 end
 
