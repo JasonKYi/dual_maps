@@ -1,0 +1,8 @@
+[package]
+name = "dual_maps"
+version = "0.1"
+lean_version = "leanprover-community/lean:3.28.0"
+path = "src"
+
+[dependencies]
+mathlib = {git = "https://github.com/leanprover-community/mathlib", rev = "852064aa5a4eba2530e34cf2ef87b674f4f612e4"}
