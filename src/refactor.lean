@@ -27,25 +27,22 @@ end
 
 /-- Given `p` a submodule of the module `M` and `q` a submodule of `p`, `p.equiv_subtype_map q` 
 is the natural `linear_equiv` between `q` and `q.map p.subtype`. -/
-noncomputable def submodule.equiv_subtype_map 
+def submodule.equiv_subtype_map 
   (p : submodule R M₁) (q : submodule R p) : q ≃ₗ[R] q.map p.subtype :=
-linear_equiv.of_bijective ((p.subtype.dom_restrict q).cod_restrict _
-  begin
-    rintro ⟨x, hx⟩,
-    refine ⟨x, hx, rfl⟩,
-  end)
-  begin
-    rw linear_map.ker_eq_bot,
-    rintro ⟨⟨_, _⟩, _⟩ ⟨⟨_, _⟩, _⟩ hxy,
-    rw [subtype.mk_eq_mk, subtype.mk_eq_mk],
-    injections with hxy,
-  end
-  begin
-    rw linear_map.range_eq_top,
-    rintro ⟨x, hx⟩,
-    rcases hx with ⟨y, hy, rfl⟩,
-    refine ⟨⟨y, hy⟩, rfl⟩,
-  end
+{ inv_fun := 
+    begin
+      rintro ⟨x, hx⟩,
+      refine ⟨⟨x, _⟩, _⟩;
+      rcases hx with ⟨⟨_, h⟩, _, rfl⟩; 
+      assumption
+    end,
+  left_inv := λ ⟨⟨_, _⟩, _⟩, rfl,
+  right_inv := λ ⟨x, ⟨_, h⟩, _, rfl⟩, rfl, .. 
+  (p.subtype.dom_restrict q).cod_restrict _
+    begin
+      rintro ⟨x, hx⟩,
+      refine ⟨x, hx, rfl⟩,
+    end }
 
 lemma finite_dimensional.subtype_eq_findim_eq (p : subspace K V₁) (q : subspace K p) :
   finite_dimensional.findim K (q.map p.subtype) = finite_dimensional.findim K q :=

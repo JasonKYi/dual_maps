@@ -133,16 +133,14 @@ variables [finite_dimensional K V₁] [finite_dimensional K V₂]
 lemma double_dual_annihilator_findim_eq (U : subspace K V₁) :
   findim K U.dual_annihilator.dual_annihilator = findim K U :=
 begin
-  zify,
   let D := U.dual_annihilator.dual_annihilator,
-  suffices : (findim K V₁ : ℤ) - findim K D = findim K V₁ - findim K U,
-    linarith,
+  suffices : (findim K V₁ : ℤ) - findim K D = findim K V₁ - findim K U, linarith,
   symmetry,
   rw ← (subspace.quot_equiv_annihilator U.dual_annihilator).findim_eq,
-  conv_lhs { rw ← submodule.findim_quotient_add_findim U },
+  conv_lhs { rw [← submodule.findim_quotient_add_findim U, 
+                 (subspace.quot_equiv_annihilator U).findim_eq] },
   conv_rhs { rw [← subspace.dual_findim_eq, 
                  ← submodule.findim_quotient_add_findim U.dual_annihilator] },
-  rw (subspace.quot_equiv_annihilator U).findim_eq,
   simp,
 end
 
@@ -156,9 +154,9 @@ begin
 end
 
 lemma submodule.eq_double_dual_annihilator_comap_eval (U : submodule K V₁) : 
-  U = U.dual_annihilator.dual_annihilator.comap (dual.eval K V₁) :=
-eq_of_le_of_findim_eq U.le_double_dual_annihilator_comap_eval 
-  U.double_dual_annihilator_findim_eq_comap_eval.symm
+  U.dual_annihilator.dual_annihilator.comap (dual.eval K V₁) = U :=
+(eq_of_le_of_findim_eq U.le_double_dual_annihilator_comap_eval 
+  U.double_dual_annihilator_findim_eq_comap_eval.symm).symm
 
 -- extra
 lemma eq_of_dual_apply_eq (x y : V₁)
